@@ -9,12 +9,7 @@ class stuff extends Model
 {
     use softDeletes;
     protected $fillable = ["name", "category"];
-
-
-
-
-
-
+    
 
     public function stuffstock()
     {

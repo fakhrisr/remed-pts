@@ -67,16 +67,17 @@ class StuffController extends Controller
     public function show($id)
     {
         try {
-            $data = Stuff::where('id', $id)->first();
+
+            $getStuff= stuff::where('id', $id)->with('stuffstock', 'inboundstuff', 'lendings')->first();
     
-            if (is_null($data)) {
-                return ApiFormatter::sendResponse(400, 'bad request', 'Data not found!');
+            if (!$getStuff) {
+                return ResponseFormatter::sendResponse(400, 'bad request', 'Data not found!');
             } else {
-                return ApiFormatter::sendResponse(200, 'success', $data);
+                return ResponseFormatter::sendResponse(200, 'success', $data);
             }
     
         } catch (Exception $err) {
-            return ApiFormatter::sendResponse(400, 'bad request', $err->getMessage());
+            return ResponseFormatter::sendResponse(400, 'bad request', $err->getMessage());
         }
     }
     
@@ -178,6 +179,11 @@ class StuffController extends Controller
     } catch (Exception $err) {
         return ApiFormatter::sendResponse(400, 'bad request', $err->getMessage());
     }
+}
+
+public function __construct()
+{
+$this->middleware('auth:api');
 }
 
 

@@ -118,12 +118,21 @@ class UserController extends Controller
 
             $password = substr($request->email, 0, 3) . substr($request->username, 0, 3);
 
+            if ($request->password){
             $checkProses = User::where('id', $id)->update([
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($password),
                 'role' => $request->role,
             ]);
+        }else {
+            $checkProses = User::where('id', $id)->update([
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($password),
+                'role' => $request->role,
+            ]);
+        }
 
             if ($checkProses) {
                 $data = User::find($id);
@@ -262,5 +271,10 @@ class UserController extends Controller
             return ApiFormatter::sendResponse(400,  $e->getMessage());
         }
     }
+
+    public function __construct()
+    {
+    $this->middleware('auth:api');
+    }       
 
 }

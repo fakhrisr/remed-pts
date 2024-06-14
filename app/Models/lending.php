@@ -12,12 +12,12 @@ class lending extends Model
 
     public function user()
     {
-        return $this->belongTo(user::class);
+        return $this->belongTo(User::class);
     }
 
     public function stuff()
     {
-        return $this->belongTo(Stuff::class);
+        return $this->belongTo(stuff::class);
     }
 
     public function restorations()
